@@ -17,15 +17,16 @@ public class PointHandler implements ShapeHandler {
 	}
 
 	@Override
-	public void mouseClick(int x, int y) {
+	public boolean mouseClick(int x, int y) {
 		point.x = x;
 		point.y = y;
+		return true;
 	}
 
 	@Override
 	public void paint(Graphics g) {
 		// Draw the point
-		g.drawOval((int)point.x, (int)point.y, 2, 2);
+		g.drawOval((int) point.x, (int) point.y, 2, 2);
 	}
 
 }

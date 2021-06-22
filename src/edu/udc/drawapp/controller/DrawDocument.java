@@ -4,10 +4,12 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Stack;
 
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import edu.udc.drawapp.command.Command;
 import edu.udc.drawapp.gui.DrawView;
 import edu.udc.drawapp.model.Shape;
 import edu.udc.drawapp.persistence.BinaryShapeFile;
@@ -20,6 +22,7 @@ public class DrawDocument {
 	private List<Shape> shapeList;
 	private Shape currentShape;
 	private List<DrawView> observerList;
+	private List<Command> commandHistory = new Stack<>();
 
 	private static final DrawDocument instance = new DrawDocument();
 
@@ -38,8 +41,16 @@ public class DrawDocument {
 
 	public void updateObservers() {
 		for (DrawView view : observerList) {
-			view.update();
+			view.update(shapeList);
 		}
+	}
+
+	public List<Shape> getShapeList() {
+		return shapeList;
+	}
+
+	public void removeLastShape() {
+		this.shapeList.remove(this.shapeList.size() - 1);
 	}
 
 	public void setCurrentDrawingShape(Shape shape) {
@@ -60,10 +71,20 @@ public class DrawDocument {
 		updateObservers();
 	}
 
+	public void addCommand(Command c) {
+		commandHistory.add(c);
+	}
+
+	public void removeLastCommand() {
+		this.commandHistory.remove(this.commandHistory.size() - 1);
+	}
+
+	public List<Command> getCommandHistory() {
+		return this.commandHistory;
+	}
+
 	public List<Shape> lerArquivo(File file) {
-
 		chooseFileType(file);
-
 		shapeList.clear();
 		shapeList = shapeFile.readFile();
 		updateObservers();

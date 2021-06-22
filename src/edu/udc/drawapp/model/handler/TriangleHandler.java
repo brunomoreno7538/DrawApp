@@ -8,11 +8,8 @@ public class TriangleHandler implements ShapeHandler {
 
 	private Triangle triangle;
 	/*
-	 * Drawing state
-	 * 0 - not drawing
-	 * 1 point defined
-	 * 2 points defined
-	 * 3 points defined
+	 * Drawing state 0 - not drawing 1 point defined 2 points defined 3 points
+	 * defined
 	 */
 	private static int state;
 
@@ -22,7 +19,7 @@ public class TriangleHandler implements ShapeHandler {
 
 	@Override
 	public void mouseMove(int x, int y) {
-		switch(state) {
+		switch (state) {
 		case 1:
 			triangle.b.x = x;
 			triangle.b.y = y;
@@ -35,8 +32,8 @@ public class TriangleHandler implements ShapeHandler {
 	}
 
 	@Override
-	public void mouseClick(int x, int y) {
-		switch(state) {
+	public boolean mouseClick(int x, int y) {
+		switch (state) {
 		case 0:
 			triangle.a.x = x;
 			triangle.a.y = y;
@@ -45,26 +42,27 @@ public class TriangleHandler implements ShapeHandler {
 			triangle.c.x = x;
 			triangle.c.y = y;
 			state = 1;
-			break;
+			return false;
 		case 1:
 			triangle.b.x = x;
 			triangle.b.y = y;
 			state = 2;
-			break;
+			return false;
 		case 2:
 			triangle.c.x = x;
 			triangle.c.y = y;
 			state = 0;
-			break;
+			return true;
 		}
+		return false;
 	}
 
 	@Override
 	public void paint(Graphics g) {
 		// Draw the triangle
-		g.drawLine((int)triangle.a.x, (int)triangle.a.y, (int)triangle.b.x, (int)triangle.b.y);
-		g.drawLine((int)triangle.b.x, (int)triangle.b.y, (int)triangle.c.x, (int)triangle.c.y);
-		g.drawLine((int)triangle.c.x, (int)triangle.c.y, (int)triangle.a.x, (int)triangle.a.y);
+		g.drawLine((int) triangle.a.x, (int) triangle.a.y, (int) triangle.b.x, (int) triangle.b.y);
+		g.drawLine((int) triangle.b.x, (int) triangle.b.y, (int) triangle.c.x, (int) triangle.c.y);
+		g.drawLine((int) triangle.c.x, (int) triangle.c.y, (int) triangle.a.x, (int) triangle.a.y);
 	}
 
 }

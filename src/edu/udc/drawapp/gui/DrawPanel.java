@@ -11,11 +11,13 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import edu.udc.drawapp.DrawApp;
+import edu.udc.drawapp.controller.DrawDocument;
 import edu.udc.drawapp.model.Shape;
 
 public class DrawPanel extends JPanel implements DrawView {
 
 	private Shape shape;
+	private DrawDocument drawDocument;
 	public List<Shape> shapeList = new ArrayList<Shape>();
 
 	/**
@@ -40,8 +42,10 @@ public class DrawPanel extends JPanel implements DrawView {
 			public void mouseClicked(MouseEvent e) {
 				shape = DrawApp.getDocument().getCurrentDrawingShape();
 				if (shape != null) {
-					shape.getHandler().mouseClick(e.getX(), e.getY());
-					shapeList.add(shape);
+					if (shape.getHandler().mouseClick(e.getX(), e.getY())) {
+						shapeList.add(shape);
+					}
+					System.out.println(shapeList);
 					DrawApp.getDocument().finishDrawingShape();
 					repaint();
 				}
@@ -68,13 +72,14 @@ public class DrawPanel extends JPanel implements DrawView {
 		}
 	}
 
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
-	}
-
 	public void lerArquivo(File file) {
 		shapeList = DrawApp.getDocument().lerArquivo(file);
+		repaint();
+	}
+
+	@Override
+	public void update(List<Shape> shapeList) {
+		this.shapeList = shapeList;
 		repaint();
 	}
 

@@ -23,30 +23,13 @@ import edu.udc.drawapp.persistence.BinaryShapeFile;
 import edu.udc.drawapp.persistence.SerialShapeFile;
 import edu.udc.drawapp.persistence.ShapeFile;
 import edu.udc.drawapp.persistence.TextShapeFile;
+import edu.udc.drawapp.command.Command;
+import edu.udc.drawapp.command.shapes.*;
 
 public class DrawFrame extends JFrame {
 
 	private DrawPanel contentPane;
 
-	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					DrawFrame frame = new DrawFrame();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
-
-	/**
-	 * Create the frame.
-	 */
 	public DrawFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 650, 500);
@@ -66,7 +49,7 @@ public class DrawFrame extends JFrame {
 		JMenuItem mntmPoint = new JMenuItem("Ponto");
 		mntmPoint.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				DrawApp.getDocument().setCurrentDrawingShape(new Point(-1, -1));
+				executeCommand(new DrawPointCommand(DrawApp.getDocument()));
 			}
 		});
 		mnGeometrias.add(mntmPoint);
@@ -74,7 +57,7 @@ public class DrawFrame extends JFrame {
 		JMenuItem mntmLine = new JMenuItem("Linha");
 		mntmLine.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				DrawApp.getDocument().setCurrentDrawingShape(new Line(new Point(-1, -1), new Point(-1, -1)));
+				executeCommand(new DrawLineCommand(DrawApp.getDocument()));
 			}
 		});
 		mnGeometrias.add(mntmLine);
@@ -82,7 +65,7 @@ public class DrawFrame extends JFrame {
 		JMenuItem mntmCircle = new JMenuItem("Circulo");
 		mntmCircle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				DrawApp.getDocument().setCurrentDrawingShape(new Circle(new Point(-1, -1), 0));
+				executeCommand(new DrawCircleCommand(DrawApp.getDocument()));
 			}
 		});
 		mnGeometrias.add(mntmCircle);
@@ -90,8 +73,7 @@ public class DrawFrame extends JFrame {
 		JMenuItem mntmRectangle = new JMenuItem("Retângulo");
 		mntmRectangle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				DrawApp.getDocument().setCurrentDrawingShape(
-						new Rectangle(new Point(-1, -1), new Point(-1, -1), new Point(-1, -1), new Point(-1, -1)));
+				executeCommand(new DrawRectangleCommand(DrawApp.getDocument()));
 			}
 		});
 		mnGeometrias.add(mntmRectangle);
@@ -99,8 +81,7 @@ public class DrawFrame extends JFrame {
 		JMenuItem mntmTriangle = new JMenuItem("Triângulo");
 		mntmTriangle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				DrawApp.getDocument()
-						.setCurrentDrawingShape(new Triangle(new Point(-1, -1), new Point(-1, -1), new Point(-1, -1)));
+				executeCommand(new DrawTriangleCommand(DrawApp.getDocument()));
 			}
 		});
 		mnGeometrias.add(mntmTriangle);
@@ -169,5 +150,22 @@ public class DrawFrame extends JFrame {
 		}
 
 		return file;
+	}
+
+	private void executeCommand(Command c) {
+		if (c.execute()) {
+			DrawApp.getDocument().addCommand(c);
+		}
+	}
+
+	private void undo() {
+		if (DrawApp.getDocument().getCommandHistory().isEmpty())
+			return;
+		Command command = DrawApp.getDocument().getCommandHistory()
+				.get(DrawApp.getDocument().getCommandHistory().size() - 1);
+		if (command != null) {
+			DrawApp.getDocument().removeLastCommand();
+			command.undo();
+		}
 	}
 }
