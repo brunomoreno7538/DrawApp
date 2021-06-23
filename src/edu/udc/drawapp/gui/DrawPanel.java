@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import edu.udc.drawapp.DrawApp;
 import edu.udc.drawapp.controller.DrawDocument;
 import edu.udc.drawapp.model.Shape;
+import edu.udc.drawapp.model.Shape.ShapeState;
 
 public class DrawPanel extends JPanel implements DrawView {
 
@@ -41,12 +42,11 @@ public class DrawPanel extends JPanel implements DrawView {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				shape = DrawApp.getDocument().getCurrentDrawingShape();
+				shape.setState(ShapeState.DRAWING);
 				if (shape != null) {
-					if (shape.getHandler().mouseClick(e.getX(), e.getY())) {
-						shapeList.add(shape);
+					if(shape.getHandler().mouseClick(e.getX(), e.getY())) {
+						DrawApp.getDocument().finishDrawingShape();
 					}
-					System.out.println(shapeList);
-					DrawApp.getDocument().finishDrawingShape();
 					repaint();
 				}
 			}
@@ -74,6 +74,12 @@ public class DrawPanel extends JPanel implements DrawView {
 
 	public void lerArquivo(File file) {
 		shapeList = DrawApp.getDocument().lerArquivo(file);
+		repaint();
+	}
+	
+	public void carregarDb(List<Shape> shapeList) {
+		System.out.println(shapeList);
+		this.shapeList = shapeList;
 		repaint();
 	}
 

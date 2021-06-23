@@ -37,6 +37,7 @@ public class LineHandler implements ShapeHandler {
 			state = 1;
 			return false;
 		case 1:
+			System.out.println("CU");
 			line.b.x = x;
 			line.b.y = y;
 			state = 0;

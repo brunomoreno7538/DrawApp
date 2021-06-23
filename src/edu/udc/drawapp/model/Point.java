@@ -1,7 +1,9 @@
 package edu.udc.drawapp.model;
 
+import edu.udc.drawapp.model.Shape.ShapeState;
 import edu.udc.drawapp.model.handler.PointHandler;
 import edu.udc.drawapp.model.handler.ShapeHandler;
+import edu.udc.drawapp.persistence.jdbc.dao.PointDAO;
 
 public class Point implements Shape {
 	public float x;
@@ -28,6 +30,17 @@ public class Point implements Shape {
 	@Override
 	public String toString() {
 		return "Point [x=" + x + ", y=" + y + "]";
+	}
+
+	@Override
+	public void setState(ShapeState state) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public ShapeState getState() {
+		return null;
 	}
 
 }

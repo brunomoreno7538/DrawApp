@@ -1,5 +1,6 @@
 package edu.udc.drawapp.model;
 
+import edu.udc.drawapp.model.Shape.ShapeState;
 import edu.udc.drawapp.model.handler.RectangleHandler;
 import edu.udc.drawapp.model.handler.ShapeHandler;
 
@@ -25,5 +26,18 @@ public class Rectangle implements Shape {
 	public String toString() {
 		return "Rectangle [a=" + a + ", b=" + b + ", c=" + c + ", d=" + d + "]";
 	}
+
+	@Override
+	public void setState(ShapeState state) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public ShapeState getState() {
+		return null;
+	}
+
+	
 
 }

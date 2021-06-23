@@ -1,5 +1,6 @@
 package edu.udc.drawapp.model;
 
+import edu.udc.drawapp.model.Shape.ShapeState;
 import edu.udc.drawapp.model.handler.ShapeHandler;
 import edu.udc.drawapp.model.handler.TriangleHandler;
 
@@ -23,6 +24,17 @@ public class Triangle implements Shape {
 	@Override
 	public String toString() {
 		return "Triangle [a=" + a + ", b=" + b + ", c=" + c + "]";
+	}
+
+	@Override
+	public void setState(ShapeState state) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public ShapeState getState() {
+		return null;
 	}
 
 }

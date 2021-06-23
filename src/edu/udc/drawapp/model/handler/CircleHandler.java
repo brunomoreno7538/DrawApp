@@ -35,7 +35,7 @@ public class CircleHandler implements ShapeHandler {
 		case 1:
 			circle.radius = circle.center.distance(x, y);
 			state = 0;
-			break;
+			return true;
 		}
 		return false;
 	}

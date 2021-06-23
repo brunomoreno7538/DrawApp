@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
+import java.util.stream.Collectors;
 
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -16,6 +17,7 @@ import edu.udc.drawapp.persistence.BinaryShapeFile;
 import edu.udc.drawapp.persistence.SerialShapeFile;
 import edu.udc.drawapp.persistence.ShapeFile;
 import edu.udc.drawapp.persistence.TextShapeFile;
+import edu.udc.drawapp.persistence.jdbc.dao.DrawDAO;
 
 public class DrawDocument {
 	private ShapeFile shapeFile = null;
@@ -46,7 +48,7 @@ public class DrawDocument {
 	}
 
 	public List<Shape> getShapeList() {
-		return shapeList;
+		return shapeList.stream().distinct().collect(Collectors.toList());
 	}
 
 	public void removeLastShape() {
@@ -62,6 +64,7 @@ public class DrawDocument {
 	}
 
 	public void finishDrawingShape() {
+		System.out.println(currentShape);
 		shapeList.add(currentShape);
 		updateObservers();
 	}
@@ -94,6 +97,19 @@ public class DrawDocument {
 	public void salvarArquivo(File file) {
 		chooseFileType(file);
 		shapeFile.saveFile(shapeList);
+	}
+	
+	public void salvarDb(String nome) {
+		DrawDAO db = new DrawDAO();
+		db.insert(nome);
+		db.saveShapeList(this.getShapeList());
+	}
+	
+	public List<Shape> carregarDb(String nome) {
+		DrawDAO db = new DrawDAO();
+		db.search(nome);
+		updateObservers();
+		return db.search(nome);
 	}
 
 	private File chooseFile(boolean gravar) {

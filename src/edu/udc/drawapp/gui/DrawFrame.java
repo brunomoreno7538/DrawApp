@@ -10,6 +10,8 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -29,8 +31,11 @@ import edu.udc.drawapp.command.shapes.*;
 public class DrawFrame extends JFrame {
 
 	private DrawPanel contentPane;
+	
+	private final JTextField textField;
 
 	public DrawFrame() {
+		this.textField = new JTextField();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 650, 500);
 		contentPane = new DrawPanel();
@@ -112,6 +117,27 @@ public class DrawFrame extends JFrame {
 			}
 		});
 		mnArquivos.add(mntmSalvar);
+		
+		JMenu mnDb = new JMenu("Database");
+		menuBar.add(mnDb);
+		
+		JMenuItem mntmSalvarDb = new JMenuItem("Salvar");
+		mntmSalvarDb.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String nome = JOptionPane.showInputDialog("Digite o nome do desenho:");
+				DrawApp.getDocument().salvarDb(nome);
+			}
+		});
+		mnDb.add(mntmSalvarDb);
+		
+		JMenuItem mntmCarregarDb = new JMenuItem("Carregar");
+		mntmCarregarDb.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String nome = JOptionPane.showInputDialog("Digite o nome do desenho:");
+				contentPane.carregarDb(DrawApp.getDocument().carregarDb(nome));
+			}
+		});
+		mnDb.add(mntmCarregarDb);
 	}
 
 	private File chooseFile(boolean gravar) {
