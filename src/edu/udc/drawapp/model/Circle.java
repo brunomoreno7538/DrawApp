@@ -1,13 +1,14 @@
 package edu.udc.drawapp.model;
 
 import edu.udc.drawapp.model.handler.CircleHandler;
+import edu.udc.drawapp.model.handler.CircleNotInitiatedHandler;
 import edu.udc.drawapp.model.handler.ShapeHandler;
 import edu.udc.drawapp.persistence.jdbc.dao.CircleDAO;
 
 public class Circle implements Shape {
 	public Point center;
 	public float radius;
-	private ShapeState state;
+	private ShapeHandler state = new CircleNotInitiatedHandler(this);
 
 	public Circle(Point center, float radius) {
 		this.center = center;
@@ -25,12 +26,12 @@ public class Circle implements Shape {
 	}
 
 	@Override
-	public void setState(ShapeState state) {
+	public void setState(ShapeHandler state) {
 		this.state = state;
 	}
 
 	@Override
-	public ShapeState getState() {
+	public ShapeHandler getState() {
 		return this.state;
 	}
 

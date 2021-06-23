@@ -13,8 +13,6 @@ import javax.swing.JPanel;
 import edu.udc.drawapp.DrawApp;
 import edu.udc.drawapp.controller.DrawDocument;
 import edu.udc.drawapp.model.Shape;
-import edu.udc.drawapp.model.Shape.ShapeState;
-
 public class DrawPanel extends JPanel implements DrawView {
 
 	private Shape shape;
@@ -42,9 +40,10 @@ public class DrawPanel extends JPanel implements DrawView {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				shape = DrawApp.getDocument().getCurrentDrawingShape();
-				shape.setState(ShapeState.DRAWING);
 				if (shape != null) {
-					if(shape.getHandler().mouseClick(e.getX(), e.getY())) {
+					System.out.println(shape.getHandler().getClass().getSimpleName());
+					if(shape.getState().mouseClick(e.getX(), e.getY())) {
+						shapeList.add(shape);
 						DrawApp.getDocument().finishDrawingShape();
 					}
 					repaint();

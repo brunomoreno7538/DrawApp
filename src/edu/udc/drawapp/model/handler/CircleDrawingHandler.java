@@ -3,7 +3,6 @@ package edu.udc.drawapp.model.handler;
 import java.awt.Graphics;
 
 import edu.udc.drawapp.model.Circle;
-import edu.udc.drawapp.model.Shape.ShapeState;
 
 public class CircleDrawingHandler implements ShapeHandler {
 
@@ -21,8 +20,8 @@ public class CircleDrawingHandler implements ShapeHandler {
 	@Override
 	public boolean mouseClick(int x, int y) {
 		circle.radius = circle.center.distance(x ,y);
-		circle.setState(ShapeState.FINISHED);
-		return false;
+		circle.setState(new CircleNotInitiatedHandler(circle));
+		return true;
 	}
 
 	@Override

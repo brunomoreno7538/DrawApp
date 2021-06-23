@@ -1,6 +1,5 @@
 package edu.udc.drawapp.model;
 
-import edu.udc.drawapp.model.Shape.ShapeState;
 import edu.udc.drawapp.model.handler.LineHandler;
 import edu.udc.drawapp.model.handler.ShapeHandler;
 import edu.udc.drawapp.persistence.jdbc.dao.LineDAO;
@@ -25,13 +24,14 @@ public class Line implements Shape {
 	}
 
 	@Override
-	public void setState(ShapeState state) {
+	public void setState(ShapeHandler state) {
 		// TODO Auto-generated method stub
 		
 	}
-	
+
 	@Override
-	public ShapeState getState() {
+	public ShapeHandler getState() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
